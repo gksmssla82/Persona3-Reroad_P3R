@@ -1,6 +1,6 @@
 # Persona 3 Reload - Turn-Based JRPG Portfolio
 
-## 📑 목차 (Table of Contents)
+##  목차 (Table of Contents)
 
 - [프로젝트 개요](#-프로젝트-개요)
   - [개발 동기 및 목표](#개발-동기-및-목표)
@@ -28,7 +28,7 @@
 
 ---
 
-## 🎮 프로젝트 개요
+##  프로젝트 개요
 
 **프로젝트명**: Persona 3 Reload  
 **엔진**: Unreal Engine 5.4  
@@ -65,7 +65,7 @@
 
 ---
 
-## 🏆 주요 역할 및 성과
+##  주요 역할 및 성과
 
 ### 시스템 아키텍처 설계
 - **Subsystem 패턴** 기반 턴제 전투 시스템 구축
@@ -94,7 +94,7 @@
 
 ---
 
-## 🏗️ 시스템 아키텍처
+##  시스템 아키텍처
 
 ### 1. TriggerEnemy → TBC Possess 시스템
 
@@ -422,7 +422,7 @@ Custom Stencil과 Material Parameter Collection을 활용한 전투 입장 연�
 
 ---
 
-## 📜 핵심 구현 내용 상세
+##  핵심 구현 내용 상세
 
 ### 1. 필드-전투 전환 시스템
 
@@ -896,7 +896,7 @@ void ATBC_CharacterBase::SetupCustomDepth() {
 
 ---
 
-## ⚡ 성능 최적화
+##  성능 최적화
 
 ### 메모리 관리
 - **TSoftClassPtr 활용**: 몬스터 클래스 지연 로딩
@@ -914,7 +914,7 @@ void ATBC_CharacterBase::SetupCustomDepth() {
 
 ---
 
-## 📁 코드 구조
+##  코드 구조
 
 ### 디렉토리 구조
 ```
@@ -949,7 +949,7 @@ Source/Persona3Reroad/
 
 ---
 
-## 🔮 향후 개선 방향
+##  향후 개선 방향
 
 ### 계획된 기능
 - [ ] 페르소나 합체 시스템
@@ -965,7 +965,7 @@ Source/Persona3Reroad/
 
 ---
 
-## 📚 학습 및 성장
+##  학습 및 성장
 
 ### 습득한 기술
 - **자료구조 활용**: Queue를 활용한 효율적인 턴 관리
@@ -990,8 +990,6 @@ Source/Persona3Reroad/
 ---
 
 <div align="center">
-
-**Made with ❤️ using Unreal Engine 5.4**
 
 *턴제 게임의 깊이 있는 시스템 설계와 구현*
 
