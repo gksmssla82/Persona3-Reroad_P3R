@@ -884,7 +884,7 @@ void ATBC_CharacterBase::SetupCustomDepth() {
 
 ---
 
-## 🛠 기술 스택 및 패턴
+##  기술 스택 및 패턴
 
 ### 사용 기술
 - **Unreal Engine 5.4**
