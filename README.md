@@ -4,6 +4,10 @@
 
 - [프로젝트 개요](#-프로젝트-개요)
   - [개발 동기 및 목표](#개발-동기-및-목표)
+  - [학습 및 성장](#-학습-및-성장)
+  - [기술 스택 및 패턴](#-기술-스택-및-패턴)
+  - [성능 최적화](#-성능-최적화)  
+  - [코드 구조](#-코드-구조)  
 - [주요 역할 및 성과](#-주요-역할-및-성과)
 - [시스템 아키텍처](#️-시스템-아키텍처)
   - [1. TriggerEnemy → TBC Possess 시스템](#1-triggerenemy--tbc-possess-시스템)
@@ -19,12 +23,10 @@
   - [6. 카메라 관리 시스템](#6-카메라-관리-시스템)
   - [7. 스킬 시스템](#7-스킬-시스템)
   - [8. 동적 시퀀스 바인딩](#8-동적-시퀀스-바인딩)
-  - [9. 전투 입장 포스트 프로세싱](#9-전투-입장-포스트-프로세싱)
-- [기술 스택 및 패턴](#-기술-스택-및-패턴)
-- [성능 최적화](#-성능-최적화)
-- [코드 구조](#-코드-구조)
+  - [9. 전투 입장 포스트 프로세싱](#9-전투-입장-포스트-프로세싱)  
+
 - [향후 개선 방향](#-향후-개선-방향)
-- [학습 및 성장](#-학습-및-성장)
+
 
 ---
 
@@ -63,6 +65,104 @@
 
 #### 개발 동기
 가장 인생 게임이라고 할 수 있는 **33원정대**, **발더스게이트3**와 같은 턴제 게임을 직접 제작해 보고 싶다는 열정으로 시작한 프로젝트입니다. 단순한 기능 구현을 넘어 **전문적이고 확장 가능한 시스템 아키텍처**를 설계하는 것을 목표로 삼았습니다.
+
+##  학습 및 성장
+
+### 습득한 기술
+- **자료구조 활용**: Queue를 활용한 효율적인 턴 관리
+- **GameplayTag 시스템**: 확장 가능한 State 관리 방법
+- **Level Sequence**: 동적 바인딩 및 블렌딩 기법
+- **Post-Process**: Custom Stencil을 활용한 시각 효과
+- **Component 기반 설계**: 모듈화 및 재사용성 향상
+
+### 해결한 과제
+- **복잡한 State 관리**: GameplayTag로 bool 변수 남발 방지
+- **턴 순서 관리**: Queue 자료구조로 효율적인 FIFO 구현
+- **동적 시퀀스**: 캐릭터별 다른 연출을 하나의 시스템으로 통합
+- **카메라 관리**: TMap을 활용한 효율적인 카메라 전환
+- **성능 최적화**: 이벤트 기반 아키텍처로 Tick 의존성 최소화
+
+### 프로젝트를 통해 배운 점
+1. **확장 가능한 설계의 중요성**: GameplayTag와 Component 패턴을 통해 기능 추가가 용이한 구조 설계
+2. **자료구조의 중요성**: 적절한 자료구조(Queue) 선택으로 성능과 가독성 향상
+3. **이벤트 기반 아키텍처**: 결합도를 낮추고 유지보수성을 높이는 설계 방법
+4. **영화적 연출**: Level Sequence를 활용한 게임 연출 기법
+
+##  기술 스택 및 패턴
+
+### 사용 기술
+- **Unreal Engine 5.4**
+- **C++**: 모든 베이스 시스템 구현
+- **Gameplay Tags**: State 및 UI 관리
+- **Level Sequence**: 영화적 연출
+- **Material Parameter Collection**: 동적 머티리얼 제어
+- **Custom Stencil**: 포스트 프로세스 효과
+
+### 디자인 패턴
+- **Subsystem Pattern**: 게임 인스턴스 레벨의 턴 관리
+- **Component Pattern**: 기능별 컴포넌트 분리 (TurnComponent, StatusComponent)
+- **Observer Pattern**: GameplayTag 변경 시 자동 알림
+- **Queue (FIFO)**: 턴 순서 관리
+- **Event-Driven Architecture**: 이벤트 기반 턴 진행
+
+### 자료구조
+- **TQueue**: 턴 순서 관리
+- **TArray**: 파티 관리, 몬스터 클래스 보유
+- **TMap**: 카메라 관리
+- **TSoftClassPtr**: 지연 로딩
+
+---
+
+##  성능 최적화
+
+### 메모리 관리
+- **TSoftClassPtr 활용**: 몬스터 클래스 지연 로딩
+- **Component 기반 설계**: 필요한 기능만 Attach
+- **GameplayTag 사용**: bool 변수 남발 방지로 메모리 절약
+
+### 렌더링 최적화
+- **Custom Stencil**: 효율적인 아웃라인 렌더링
+- **Material Parameter Collection**: 머티리얼 인스턴스 재사용
+
+### 로직 최적화
+- **Queue 자료구조**: O(1) 시간 복잡도로 턴 순서 관리
+- **이벤트 기반 아키텍처**: Tick 의존성 최소화
+- **상태 사전 계산**: 공격 전 모든 상태 계산으로 중복 연산 방지
+
+---
+
+##  코드 구조
+
+### 디렉토리 구조
+```
+Source/Persona3Reroad/
+├── Public/
+│   ├── Subsystem/
+│   │   └── TurnBattleSubsystem.h
+│   ├── Character/
+│   │   ├── TPSCharacter.h
+│   │   ├── TBC_CharacterBase.h
+│   │   ├── PlayerCharacter.h
+│   │   └── EnemyCharacter.h
+│   ├── Component/
+│   │   ├── TurnComponent.h
+│   │   └── StatusComponent.h
+│   ├── Battle/
+│   │   ├── TriggerEnemy.h
+│   │   ├── EnemyAxis.h
+│   │   ├── EnemyBattlePosition.h
+│   │   └── BattleTransitionManager.h
+│   ├── Skill/
+│   │   └── SkillBase.h
+│   ├── Camera/
+│   │   └── CameraManager.h
+│   ├── Sequence/
+│   │   └── SequenceManager.h
+│   └── GameplayTags/
+│       └── PersonaGameplayTags.h
+└── Private/
+    └── (구현 파일들)
+```
 
 ---
 
@@ -884,84 +984,6 @@ void ATBC_CharacterBase::SetupCustomDepth() {
 
 ---
 
-##  기술 스택 및 패턴
-
-### 사용 기술
-- **Unreal Engine 5.4**
-- **C++**: 모든 베이스 시스템 구현
-- **Gameplay Tags**: State 및 UI 관리
-- **Level Sequence**: 영화적 연출
-- **Material Parameter Collection**: 동적 머티리얼 제어
-- **Custom Stencil**: 포스트 프로세스 효과
-
-### 디자인 패턴
-- **Subsystem Pattern**: 게임 인스턴스 레벨의 턴 관리
-- **Component Pattern**: 기능별 컴포넌트 분리 (TurnComponent, StatusComponent)
-- **Observer Pattern**: GameplayTag 변경 시 자동 알림
-- **Queue (FIFO)**: 턴 순서 관리
-- **Event-Driven Architecture**: 이벤트 기반 턴 진행
-
-### 자료구조
-- **TQueue**: 턴 순서 관리
-- **TArray**: 파티 관리, 몬스터 클래스 보유
-- **TMap**: 카메라 관리
-- **TSoftClassPtr**: 지연 로딩
-
----
-
-##  성능 최적화
-
-### 메모리 관리
-- **TSoftClassPtr 활용**: 몬스터 클래스 지연 로딩
-- **Component 기반 설계**: 필요한 기능만 Attach
-- **GameplayTag 사용**: bool 변수 남발 방지로 메모리 절약
-
-### 렌더링 최적화
-- **Custom Stencil**: 효율적인 아웃라인 렌더링
-- **Material Parameter Collection**: 머티리얼 인스턴스 재사용
-
-### 로직 최적화
-- **Queue 자료구조**: O(1) 시간 복잡도로 턴 순서 관리
-- **이벤트 기반 아키텍처**: Tick 의존성 최소화
-- **상태 사전 계산**: 공격 전 모든 상태 계산으로 중복 연산 방지
-
----
-
-##  코드 구조
-
-### 디렉토리 구조
-```
-Source/Persona3Reroad/
-├── Public/
-│   ├── Subsystem/
-│   │   └── TurnBattleSubsystem.h
-│   ├── Character/
-│   │   ├── TPSCharacter.h
-│   │   ├── TBC_CharacterBase.h
-│   │   ├── PlayerCharacter.h
-│   │   └── EnemyCharacter.h
-│   ├── Component/
-│   │   ├── TurnComponent.h
-│   │   └── StatusComponent.h
-│   ├── Battle/
-│   │   ├── TriggerEnemy.h
-│   │   ├── EnemyAxis.h
-│   │   ├── EnemyBattlePosition.h
-│   │   └── BattleTransitionManager.h
-│   ├── Skill/
-│   │   └── SkillBase.h
-│   ├── Camera/
-│   │   └── CameraManager.h
-│   ├── Sequence/
-│   │   └── SequenceManager.h
-│   └── GameplayTags/
-│       └── PersonaGameplayTags.h
-└── Private/
-    └── (구현 파일들)
-```
-
----
-
 ##  향후 개선 방향
 
 ### 계획된 기능
@@ -969,33 +991,5 @@ Source/Persona3Reroad/
 - [ ] 세이브/로드 시스템
 
 ---
-
-##  학습 및 성장
-
-### 습득한 기술
-- **자료구조 활용**: Queue를 활용한 효율적인 턴 관리
-- **GameplayTag 시스템**: 확장 가능한 State 관리 방법
-- **Level Sequence**: 동적 바인딩 및 블렌딩 기법
-- **Post-Process**: Custom Stencil을 활용한 시각 효과
-- **Component 기반 설계**: 모듈화 및 재사용성 향상
-
-### 해결한 과제
-- **복잡한 State 관리**: GameplayTag로 bool 변수 남발 방지
-- **턴 순서 관리**: Queue 자료구조로 효율적인 FIFO 구현
-- **동적 시퀀스**: 캐릭터별 다른 연출을 하나의 시스템으로 통합
-- **카메라 관리**: TMap을 활용한 효율적인 카메라 전환
-- **성능 최적화**: 이벤트 기반 아키텍처로 Tick 의존성 최소화
-
-### 프로젝트를 통해 배운 점
-1. **확장 가능한 설계의 중요성**: GameplayTag와 Component 패턴을 통해 기능 추가가 용이한 구조 설계
-2. **자료구조의 중요성**: 적절한 자료구조(Queue) 선택으로 성능과 가독성 향상
-3. **이벤트 기반 아키텍처**: 결합도를 낮추고 유지보수성을 높이는 설계 방법
-4. **영화적 연출**: Level Sequence를 활용한 게임 연출 기법
-
----
-
-<div align="center">
-
-*턴제 게임의 깊이 있는 시스템 설계와 구현*
 
 </div>
