@@ -1,4 +1,5 @@
-# Persona 3 Reload - Turn-Based JRPG Portfolio
+# Persona 3 Reload - Turn-Based JRPG Portfolio  
+![](./Resources/Image/Main.jpg)  
 
 ##  목차 (Table of Contents)
 
